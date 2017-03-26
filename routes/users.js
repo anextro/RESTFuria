@@ -11,136 +11,15 @@ var baseUrl = "/api/v1/user/";
 
 router.get('/', UserController.getUsers);
 
-router.post('/',function(req, res){
-    var username = req.body.username;
-    
-    //create a new user
-    var nUser = new User({username:username});
-
-    nUser.save(function(err){
-      if(err) {
-        if(err.name === 'ValidationError') {
-          
-          res.status(400).json(error.validationError);
-        }
-        else {
-          if(err.code === 11000) {
-            res.status(400).json(error.duplicationError);
-          }
-          else {
-            res.status(500).json(error.genericError);
-          }
-          
-        }
-      }
-      else {//save successful
-
-        var responseObj = {};
-        responseObj.username = username;
-        responseObj.href = baseUrl+nUser._id;
-        responseObj._type = type
-
-        res.status(200).json(responseObj);
-        delete responseObj;
-      }
-    });
-
-    
-});
+router.post('/', UserController.createUser);
 
 //GET user/:id
-router.get('/:id', function(req, res){
-    //get particular user resource
-    User.findById(req.params.id, function(err, user){
-      if(err) {
-        res.status(500).json(error.genericError);
-        return;
-      }
-
-      if(!user) {
-        res.status(400).json(error.NoSuchUser);
-        return;
-      }
-
-      //user
-      var responseObj = {};
-      responseObj.href = baseUrl+user._id;
-      responseObj._type = type;
-      responseObj.username = user.username;
-      res.status(200).json(responseObj);
-      delete responseObj;
-      return;
-    });
-
-});
+router.get('/:id', UserController.findUser);
 
 //PUT user/:id
-//update only what has changed
-router.put('/:id', function(req, res){
-    //update a user resource
-    
-    User.findById(req.params.id, function(err, user){
-
-      if(err) {
-        res.status(500).json(error.genericError);
-      }
-      else {
-        if(!user) {
-          res.status(400).json(error.NoSuchUser);
-        }
-        else {
-          
-          user.username = req.body.username || "";
-
-          user.save(function(err){
-
-            if(err) {
-                if(err.name === 'ValidationError') {
-                  res.status(400).json(error.validationError);
-                }
-                else {
-                  if(err.code === 11000) {
-                    res.status(400).json(error.duplicationError);
-                  }
-                  else {
-                    res.status(500).json(error.genericError);
-                  }
-                  
-                }
-
-              }
-              else {
-
-                var userObj = {};
-                userObj.href = baseUrl+user._id;
-                userObj._type=type;
-                userObj.username = user.username;
-                res.status(200).json(userObj);
-                delete userObj;
-
-              }
-          });
-
-          //try to save and note that we might have a saving error due to duplicate
-          
-        }//end of else
-      }
-    });
-
-});
+router.put('/:id', UserController.updateUser);
 
 //DELETE user:id
-router.delete('/:id', function(req, res){
-    //delete user resource
-    User.findByIdAndRemove(req.params.id, function(err, user){
-      if(err) {
-        res.status(500).json(error.genericError);
-      }
-      else {
-        res.status(204).json();
-      }
-    });
-
-});
+router.delete('/:id', UserController.deleteUser);
 
 module.exports = router;
