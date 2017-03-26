@@ -28,3 +28,24 @@ exports.NoSuchUser = {
     code: "5004",
     "more info" :baseUrl+"5004"
 };
+
+exports.NoToken = {
+    _type: errorType,
+    message: "No Access Token",
+    code: "5005",
+    "more info" :baseUrl+"5005"
+};
+
+exports.InvalidToken = {
+    _type: errorType,
+    message: "InvalidToken Access Token",
+    code: "5006",
+    "more info" :baseUrl+"5006"
+};
+
+exports.UnAuthorizedToken = {
+    _type: errorType,
+    message: "UnAthorized Access Token",
+    code: "5007",
+    "more info" :baseUrl+"5007"
+};

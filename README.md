@@ -19,6 +19,23 @@ To run server execute:
 npm start 
 ```
 
+### Get Access tokens
+
+To get an access token, it is assumed that the user already exists.
+
+You can create a new user by using POST /user .
+
+To get an access token, use:
+
+```
+POST /api/v1/authenticate 
+{
+    "username": "***"
+}
+
+```
+
+
 ### Sample Requests
 
 Creating and refreshing access tokens:

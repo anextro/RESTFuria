@@ -31,11 +31,25 @@ router.get('/:id', function(req, res){
         
     }
     else if(id === "5004") {
-        resp.href+="5003";
+        resp.href+="5004";
         resp.message = "You are trying to perform an operation on a user resource that does not exist";
         res.json(resp);
         
-        
+    }
+    else if(id === "5005"){
+        resp.href+="5005";
+        resp.message = "There is no valid access token in the request";
+        res.json(resp);
+    }
+    else if(id === "5006"){
+        resp.href+="5006";
+        resp.message = "The access token is invalid or may have expired";
+        res.json(resp);
+    }
+    else if(id === "5007"){
+        resp.href+="5007";
+        resp.message = "The access token is not authorized to use the resource";
+        res.json(resp);
     }
     else {
         
@@ -44,5 +58,4 @@ router.get('/:id', function(req, res){
     }
 
 });
-
 module.exports = router;

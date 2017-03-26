@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var error = require('../libs/model/error.js');
+var UserController = require('../libs/controller/user.js');
 
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
@@ -8,29 +9,7 @@ var User = mongoose.model('User');
 var type = "User";
 var baseUrl = "/api/v1/user/";
 
-router.get('/', function(req, res){
-  //get all users
-  User.find(function(err, users){
-    if(err) {
-      res.status(500).json(error.genericError);
-    }
-    else {
-      var resObj = {};
-      resObj.href = baseUrl;
-      resObj.users = [];
-      users.forEach(function(user){
-        var userObj = {};
-        userObj.href = baseUrl+user._id;
-        userObj._type = type;
-        userObj.username = user.username;
-        resObj.users.push(userObj);
-
-      });
-      res.status(200).json(resObj);
-      delete resObj;
-    }
-  });
-});
+router.get('/', UserController.getUsers);
 
 router.post('/',function(req, res){
     var username = req.body.username;
