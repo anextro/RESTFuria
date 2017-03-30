@@ -36,7 +36,7 @@ module.exports = function(app){
                     req.decoded = decoded;
                     next();
                 }
-                console.log(JSON.stringify(decoded));
+                //console.log(JSON.stringify(decoded));
             });
         }
         else {

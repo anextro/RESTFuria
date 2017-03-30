@@ -11,7 +11,7 @@ db.on('error',function(err){
 });
 
 db.once('open', function(){
-    console.log("database connection open");
+    console.log("database connection open "+config.mongodb.uri);
 });
 
 require('../model/user.js');
