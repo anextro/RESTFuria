@@ -14,7 +14,7 @@ var User = mongoose.model('User');
  */
 router.post('/', function(req, res){
 
-    var name = req.body.username;
+    var name = req.body.username || "";
     User.findOne({username: name}, function(err, user){
         
         if(err) {
@@ -25,7 +25,7 @@ router.post('/', function(req, res){
         }
         else{//user exist
             var payload = {
-                role: "user",
+                role: user.role || "user",
                 username: name,
                 id: user._id
             };

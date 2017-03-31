@@ -32,6 +32,11 @@ describe('when not authorized', function(){
     
 });
 
+describe("Get all users /user", function(){
+    
+    //requires and admin user
+});
+
 describe("GET /user", function(){
     var token;
     var userId;
@@ -108,7 +113,6 @@ describe("GET /user", function(){
         var testUserName = "create";
         chai.request(server)
         .post("/api/v1/user")
-        .set('x-access-token', token)
         .send({username:testUserName})
         .end(function(err, res){
             var responseObj = JSON.parse(res.text);
@@ -130,27 +134,83 @@ describe("GET /user", function(){
 });
 
 
-// describe("/GET return a single user instance", function(){
-//     var token, headers;
-//     beforeEach(function(done){
-//         //get access-token and put it inside head
-//         var aUser = new User({username: "arthur"});
-//         aUser.save(function(err){
-//             console.log("trying to save a new user");
-//             if(err) {
-//                 console.log(JSON.stringify(err));
-//             }
-//             else {
-//                 console.log("user created successfully");
-//             }
-//             done();
-//         });
-//     });
+describe("GET all users /user", function(){
 
-//     it("it should get the recently created user", function(){
-//         //do nothing
-//     })
+    var username="admin-user";
+    var adminId;
+    var token;
 
-    
-// });
+    before(function(done){
+        var admin = new User({username:username,role:"admin"});
 
+        //save admin user
+        admin.save(function(err){
+            if(err) {
+                console.log("Failed to save admin to database");
+            }
+            else {
+                adminId = admin._id;
+                chai.request(server)
+                .post("/api/v1/authenticate")
+                .send({username:username})
+                .end(function(err, res){
+                    if(err) {
+                        console.log("error in getting admin token");
+                        console.log("admin request "+JSON.stringify(err));
+                    }
+                    else{
+                        var responseObj = JSON.parse(res.text);
+                        token = responseObj.token;
+                    }
+                    
+                    done();
+                });
+            }
+        });
+    });
+    after(function(done){
+        User.remove({}, function(err){
+            if(err) {
+                console.log("failed to remove  admin user");
+            }
+            else{
+                console.log("user admin removed");
+            }
+            done();
+        });
+    });
+
+    it("it should not get all the users without access token ", function(done){
+        //
+        chai.request(server)
+        .get("/api/v1/user")
+        .end(function(err, res){
+            if(err) {
+                var error = JSON.parse(err.response.text);
+                expect(error.code).to.equal("5005");
+            }
+            else {
+                expect(1).to.equal(2); //this should never be executed, if it is then something is wrong
+            }
+            done();
+        });
+        
+    });
+    it("it should get all the users in the User table ",function(done){
+        //
+        chai.request(server)
+        .get("/api/v1/user")
+        .set('x-access-token', token)
+        .end(function(err, res){
+            if(err) {
+                console.log("failed to get users "+JSON.stringify(err));
+            }
+            else{
+                var responseObj = JSON.parse(res.text);
+                expect((responseObj.users instanceof Array)).to.equal(true);
+            }
+            done();
+        })
+        
+    });
+});

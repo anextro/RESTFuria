@@ -14,7 +14,17 @@ npm install
 ```
 ### Run server
 
-To run server execute:
+Make sure the mongod server is up and running. Go to the bin directory of your local
+mongo installation (in windows => C:\Program Files\MongoDB\Server\3.2\bin ) and run on
+the cmd
+
+```
+mongod
+
+```
+
+To run the nodejs server execute:
+
 ```
 npm start 
 ```
@@ -25,12 +35,35 @@ To get an access token, it is assumed that the user already exists.
 
 You can create a new user by using POST /user .
 
-To get an access token, use:
+To get an access token,
+
+1. Make a post request :
+```
+POST /api/v1/user
+{
+    username: <your_user_name>
+}
+
+sample response
+{
+  "username": "constance",
+  "href": "/api/v1/user/58de3ad38fad49b7a02f24e4",
+  "_type": "User"
+}
+```
+2. Get authentication token
 
 ```
 POST /api/v1/authenticate 
 {
-    "username": "***"
+    "username": <your_user_name>
+}
+
+sample response
+
+{
+  "_type": "AccessToken",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsInVzZXJuYW1lIjoiY29uc3RhbmNlIiwiaWQiOiI1OGRlM2FkMzhmYWQ0OWI3YTAyZjI0ZTQiLCJpYXQiOjE0OTA5NTkxMzksImV4cCI6MTQ5MzU1MTEzOX0.koATN022Sdqz_fw5puIc6pJGX2z39uj5bkxAvwtfB0w"
 }
 
 ```

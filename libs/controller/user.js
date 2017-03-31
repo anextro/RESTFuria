@@ -5,15 +5,10 @@ var error = require('../model/error.js');
 var type = "User";
 var baseUrl = "/api/v1/user/";
 
+
+
 exports.getUsers = function(req, res){
-
-    var payload = req.decoded;
-
-    //only admin role can access this resource
-    if(payload.role !== "admin") {
-        res.status(403).json(error.UnAuthorizedToken);
-        return;
-    }
+    
      //get all users
   User.find(function(err, users){
     if(err) {
@@ -76,6 +71,8 @@ exports.createUser = function(req, res){
 
 exports.findUser = function(req, res){
 
+    console.log("find user");
+    
     //get particular user resource
     User.findById(req.params.id, function(err, user){
       if(err) {
@@ -103,6 +100,7 @@ exports.findUser = function(req, res){
 exports.updateUser = function(req, res) {
 
     //update a user resource
+    
     
     User.findById(req.params.id, function(err, user){
 
@@ -156,6 +154,7 @@ exports.updateUser = function(req, res) {
 
 exports.deleteUser = function(req, res) {
 
+  
     //delete user resource
     User.findByIdAndRemove(req.params.id, function(err, user){
       if(err) {
