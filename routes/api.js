@@ -4,6 +4,7 @@ var errorModel = require('../libs/model/error.js');
 var errorRoute = require('./error.js');
 var auth = require('./auth.js');
 var config = require('../libs/config.js');
+var article = require('./article.js');
 
 module.exports = function(app){
     var express = require('express');
@@ -27,6 +28,11 @@ module.exports = function(app){
     app.use('/api/v1/user', users);
 
     //api/v1/article
+    //get all articles
+    //update an article
+    //delete an article
+    
+    app.use('/api/v1/article', article);
 
     return router;
 };

@@ -51,6 +51,11 @@ router.get('/:id', function(req, res){
         resp.message = "The access token is not authorized to use the resource";
         res.json(resp);
     }
+    else if(id === "5008"){
+        resp.href+="5008";
+        resp.message = "The article you are trying to create does not contain a title or content";
+        res.json(resp);
+    }
     else {
         
         resp.message = "The Error Type you are looking for is not available";

@@ -15,3 +15,4 @@ db.once('open', function(){
 });
 
 require('../model/user.js');
+require('../model/article.js');

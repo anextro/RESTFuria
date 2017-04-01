@@ -49,3 +49,10 @@ exports.UnAuthorizedToken = {
     code: "5007",
     "more info" :baseUrl+"5007"
 };
+
+exports.ArticleError = {
+    _type: errorType,
+    message: "Article title or content is not set",
+    code: "5008",
+    "more info" :baseUrl+"5008"
+};
