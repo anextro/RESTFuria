@@ -71,19 +71,62 @@ sample response
 
 ### Sample Requests
 
-Creating and refreshing access tokens:
-```
-The base url is /api/v1/
-
-
-GET /user  -> Gets all the user in the data store
-
-POST /user  -> Creates a new user
-
-GET  /user/:id  -> Get a particular user with id = :id
-
-PUT /user/:id -> Updates the user with id = :id
-
-DELETE /user/:id  -> Deletes the user with id = :id
+Creating a new user
 
 ```
+POST /api/v1/user
+{
+  username: <your_username_here>
+}
+
+```
+
+Get a User Resource (Request must come with elevated privileges )
+
+Either the request is from the resource owner or an admin user.
+
+```
+GET /api/v1/user/:id
+
+```
+
+Update a User Resouce (Request must come with elevated privileges )
+
+Either the request is from the resource owner or an admin user.
+
+```
+
+PUT /api/v1/user/:id
+
+{
+  username: <your_updated_username_here>
+}
+
+```
+
+Delete a User Resource (Request must come with elevated privileges )
+
+Either the request is from the resource owner or an admin user.
+
+```
+DELETE /api/v1/user/:id
+
+```
+
+GET all Users (Request must come with elevated privileges )
+
+Request must come from an admin user.
+
+```
+GET /api/v1/user
+
+```
+
+### How to add an Admin User Resource
+
+1. Add a new user to your runing mongodb with a role="Admin"
+2. Use the process of getting a token to get an admin token
+
+
+### Article Sub Resource (Coming soon)
+
